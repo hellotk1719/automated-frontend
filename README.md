@@ -20,3 +20,45 @@ gulp is a toolkit for automating painful or time-consuming tasks in your develop
 
 * [gulp.js - The streaming build system](https://gulpjs.com/)
 * [Quick Start · gulp.js](https://gulpjs.com/docs/en/getting-started/quick-start)
+
+## Usage
+
+**step 1:**
+
+git clone the repository:
+
+```
+$ git clone https://github.com/hellotk1719/automated-frontend.git
+```
+
+**step 2:**
+
+change the `package.json` file.
+
+**step 3:**
+
+Install package:
+
+```
+$ npm install
+```
+
+**step 4:**
+
+Update a package:
+
+```
+$ npm update [-g] [<pkg>...]
+```
+
+* [npm-update](https://docs.npmjs.com/cli/update.html)
+
+**step 5:**
+
+Check for outdated packages:
+
+```
+$ npm outdated
+```
+
+* [npm-outdated](https://docs.npmjs.com/cli/outdated.html)
