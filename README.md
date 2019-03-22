@@ -62,3 +62,7 @@ $ npm outdated
 ```
 
 * [npm-outdated](https://docs.npmjs.com/cli/outdated.html)
+
+## Browsersync
+
+* [Browsersync - Time-saving synchronised browser testing](https://www.browsersync.io/)
