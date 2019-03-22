@@ -13,3 +13,10 @@ npm is the package manager for JavaScript and the world's largest software regis
 
 * [npm](https://www.npmjs.com/)
 * [npm Documentation](https://docs.npmjs.com/)
+
+### gulp
+
+gulp is a toolkit for automating painful or time-consuming tasks in your development workflow, so you can stop messing around and build something.
+
+* [gulp.js - The streaming build system](https://gulpjs.com/)
+* [Quick Start · gulp.js](https://gulpjs.com/docs/en/getting-started/quick-start)
