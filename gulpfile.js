@@ -2,6 +2,7 @@ const { dest, series, src, watch } = require('gulp');
 const sass = require('gulp-sass');
 const browserSync = require('browser-sync').create();
 const reload = browserSync.reload;
+const autoprefixer = require('gulp-autoprefixer');
 
 function serve(done) {
 
@@ -20,6 +21,9 @@ function sassTranspile(cb) {
 
     return src('src/scss/**/*.scss')
         .pipe(sass({ outputStyle : 'expanded' }))
+        .pipe(autoprefixer({
+            browsers: ['last 2 versions']
+        }))
         .pipe(dest('src/assets/css'));
 
     cb();
