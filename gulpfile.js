@@ -1,6 +1,22 @@
-function defaultTask(cb) {
-    // place code for your default task here
+const { dest, series, src, watch } = require('gulp');
+const sass = require('gulp-sass');
+
+function sassTranspile(cb) {
+
+    return src('src/scss/**/*.scss')
+        .pipe(sass({ outputStyle : 'expanded' }))
+        .pipe(dest('src/assets/css'));
+
     cb();
+
 }
 
-exports.default = defaultTask
+function watchFiles(cb) {
+
+    watch('src/scss/**/*.scss', series(sassTranspile));
+
+    cb();
+
+}
+
+exports.default = series(watchFiles);
