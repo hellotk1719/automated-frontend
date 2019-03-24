@@ -7,9 +7,13 @@ const distDate = dateFormat(now, "yyyymmddHHMMss");
 const browserSync = require('browser-sync').create();
 const reload = browserSync.reload;
 
+const pipeline = require('readable-stream').pipeline;
+
 const sass = require('gulp-sass');
 const autoprefixer = require('gulp-autoprefixer');
 const cleanCSS = require('gulp-clean-css');
+
+const uglify = require('gulp-uglify');
 
 function serve(done) {
 
@@ -21,16 +25,6 @@ function serve(done) {
     });
 
     done();
-
-}
-
-function cssMinify(cb) {
-
-    return src('src/assets/css/**/*.css')
-        .pipe(cleanCSS({ compatibility : 'ie8' }))
-        .pipe(dest('dist/' + distDate + '/assets/css'));
-
-    cb();
 
 }
 
@@ -47,6 +41,28 @@ function sassTranspile(cb) {
 
 }
 
+function cssMinify(cb) {
+
+    return src('src/assets/css/**/*.css')
+        .pipe(cleanCSS({ compatibility : 'ie8' }))
+        .pipe(dest('dist/' + distDate + '/assets/css'));
+
+    cb();
+
+}
+
+function jsMinify(cb) {
+
+    return pipeline(
+        src('src/assets/js/**/*.js'),
+        uglify(),
+        dest('dist/' + distDate + '/assets/js')
+    );
+
+    cb();
+
+}
+
 function watchFiles(cb) {
 
     watch('src/scss/**/*.scss', series(sassTranspile));
@@ -57,6 +73,9 @@ function watchFiles(cb) {
 }
 
 exports.dist = series(
-    parallel(cssMinify)
+    parallel(
+        cssMinify,
+        jsMinify
+    )
 );
 exports.default = series(serve, watchFiles);
