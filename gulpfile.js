@@ -1,10 +1,11 @@
-const { dest, series, src, watch } = require('gulp');
+const { dest, parallel, series, src, watch } = require('gulp');
 
 const browserSync = require('browser-sync').create();
 const reload = browserSync.reload;
 
 const sass = require('gulp-sass');
 const autoprefixer = require('gulp-autoprefixer');
+const cleanCSS = require('gulp-clean-css');
 
 function serve(done) {
 
@@ -16,6 +17,16 @@ function serve(done) {
     });
 
     done();
+
+}
+
+function cssMinify(cb) {
+
+    return src('src/assets/css/**/*.css')
+        .pipe(cleanCSS({ compatibility : 'ie8' }))
+        .pipe(dest('dist/' + '' + '/assets/css'));
+
+    cb();
 
 }
 
@@ -41,4 +52,7 @@ function watchFiles(cb) {
 
 }
 
+exports.dist = series(
+    parallel(cssMinify)
+);
 exports.default = series(serve, watchFiles);
