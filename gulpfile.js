@@ -1,5 +1,9 @@
 const { dest, parallel, series, src, watch } = require('gulp');
 
+const dateFormat = require('dateformat');
+const now = new Date();
+const distDate = dateFormat(now, "yyyymmddHHMMss");
+
 const browserSync = require('browser-sync').create();
 const reload = browserSync.reload;
 
@@ -24,7 +28,7 @@ function cssMinify(cb) {
 
     return src('src/assets/css/**/*.css')
         .pipe(cleanCSS({ compatibility : 'ie8' }))
-        .pipe(dest('dist/' + '' + '/assets/css'));
+        .pipe(dest('dist/' + distDate + '/assets/css'));
 
     cb();
 
