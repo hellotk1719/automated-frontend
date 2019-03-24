@@ -9,6 +9,8 @@ const reload = browserSync.reload;
 
 const pipeline = require('readable-stream').pipeline;
 
+const htmlmin = require('gulp-htmlmin');
+
 const sass = require('gulp-sass');
 const autoprefixer = require('gulp-autoprefixer');
 const cleanCSS = require('gulp-clean-css');
@@ -25,6 +27,15 @@ function serve(done) {
     });
 
     done();
+
+}
+
+function htmlMinify(cb) {
+
+    return src('src/**/*.html')
+        .pipe(dest('dist/' + distDate));
+
+    cb();
 
 }
 
@@ -75,7 +86,8 @@ function watchFiles(cb) {
 exports.dist = series(
     parallel(
         cssMinify,
-        jsMinify
+        jsMinify,
+        htmlMinify
     )
 );
 exports.default = series(serve, watchFiles);
