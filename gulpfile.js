@@ -74,6 +74,15 @@ function jsMinify(cb) {
 
 }
 
+function imgMinify(cb) {
+
+    return src('src/assets/img/**/*')
+        .pipe(dest('dist/' + distDate + '/assets/img'));
+
+    cb();
+
+}
+
 function watchFiles(cb) {
 
     watch('src/scss/**/*.scss', series(sassTranspile));
@@ -87,7 +96,8 @@ exports.dist = series(
     parallel(
         cssMinify,
         jsMinify,
-        htmlMinify
+        htmlMinify,
+        imgMinify
     )
 );
 exports.default = series(serve, watchFiles);
