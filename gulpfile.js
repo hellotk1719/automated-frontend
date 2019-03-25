@@ -7,6 +7,8 @@ const distDate = dateFormat(now, "yyyymmddHHMMss");
 const browserSync = require('browser-sync').create();
 const reload = browserSync.reload;
 
+const fileinclude = require('gulp-file-include');
+
 const pipeline = require('readable-stream').pipeline;
 
 const htmlmin = require('gulp-htmlmin');
@@ -30,9 +32,22 @@ function serve(done) {
 
 }
 
+function fileInclude(cb) {
+
+    return src(['src/templates/**/*.html', '!src/templates/common/**/*'])
+        .pipe(fileinclude({
+            prefix: '@@',
+            basepath: '@file'
+        }))
+        .pipe(dest('src'));
+
+    cb();
+
+}
+
 function htmlMinify(cb) {
 
-    return src('src/**/*.html')
+    return src(['src/**/*.html', '!src/templates/**/*'])
         .pipe(dest('dist/' + distDate));
 
     cb();
@@ -85,8 +100,9 @@ function imgMinify(cb) {
 
 function watchFiles(cb) {
 
-    watch('src/scss/**/*.scss', series(sassTranspile));
     watch(['src/**/*', '!src/scss/**/*']).on("change", reload);
+    watch('src/scss/**/*.scss', series(sassTranspile));
+    watch('src/templates/**/*.html', series(fileInclude));
 
     cb();
 
