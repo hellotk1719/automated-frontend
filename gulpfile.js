@@ -19,6 +19,9 @@ const cleanCSS = require('gulp-clean-css');
 
 const uglify = require('gulp-uglify');
 
+const concat = require('gulp-concat');
+const htmlreplace = require('gulp-html-replace');
+
 function serve(done) {
 
     browserSync.init({
@@ -34,7 +37,7 @@ function serve(done) {
 
 function fileInclude(cb) {
 
-    return src(['src/templates/**/*.html', '!src/templates/common/**/*'])
+    return src(['src/templates/**/*.html', '!src/templates/template.html', '!src/templates/common/**/*'])
         .pipe(fileinclude({
             prefix: '@@',
             basepath: '@file'
@@ -48,6 +51,10 @@ function fileInclude(cb) {
 function htmlMinify(cb) {
 
     return src(['src/**/*.html', '!src/templates/**/*'])
+        .pipe(htmlreplace({
+            'css': 'assets/css/style.css',
+            'js': 'assets/js/all.js'
+        }))
         .pipe(dest('dist/' + distDate));
 
     cb();
@@ -79,9 +86,16 @@ function cssMinify(cb) {
 
 function jsMinify(cb) {
 
+    const options = {
+        output: {
+            comments: true
+        }
+    };
+
     return pipeline(
-        src('src/assets/js/**/*.js'),
-        uglify(),
+        src(['src/assets/js/libs/**/*.js', 'src/assets/js/plugins/**/*.js', 'src/assets/js/*.js'])
+        .pipe(concat('all.js')),
+        uglify(options),
         dest('dist/' + distDate + '/assets/js')
     );
 
